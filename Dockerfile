@@ -6,8 +6,7 @@ MAINTAINER Paul Redmond
 
 RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 
-RUN docker-php-ext-install mbstring pdo pdo_mysql \
-    && chown -R www-data:www-data /srv/app
+RUN docker-php-ext-install mbstring pdo pdo_mysql
 
 ## install manually all the missing libraries
 RUN apt-get update -y
