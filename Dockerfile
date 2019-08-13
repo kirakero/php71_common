@@ -19,12 +19,27 @@ RUN apt-get install -y libzip-dev zip wget \
   && docker-php-ext-install zip
 
 # Install needed php extensions: ldap
-RUN \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install libldap2-dev -y && \
     rm -rf /var/lib/apt/lists/* && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap
+
+# Install GD and opcache
+# opcache is configured by default for development
+RUN apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+    && docker-php-ext-install -j$(nproc) iconv \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install opcache
+
+COPY .docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+# Install various PHP extensions
+RUN docker-php-ext-configure bcmath --enable-bcmath && docker-php-ext-install bcmath
 
 # if there is a failure in apt-get below, try
 #rm /etc/apt/preferences.d/no-debian-php
