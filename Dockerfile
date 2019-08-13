@@ -36,7 +36,7 @@ RUN apt-get update && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap
 
-COPY .docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 # Install various PHP extensions
 RUN docker-php-ext-configure bcmath --enable-bcmath && docker-php-ext-install bcmath
