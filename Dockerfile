@@ -22,7 +22,7 @@ RUN docker-php-ext-install mbstring pdo pdo_mysql
 ## install manually all the missing libraries
 RUN apt-get update -y
 
-RUN a2enmod rewrite
+RUN a2enmod rewrite expires
 
 #install some base extensions
 RUN apt-get install -y libzip-dev zip wget \
